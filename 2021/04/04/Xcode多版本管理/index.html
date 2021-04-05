@@ -20,17 +20,17 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
 <meta name="hexo-config" content="{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;/&quot;,&quot;images&quot;:&quot;/images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.3.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}">
-<meta name="description" content="此处说的多版本管理，指多Configurations管理。我们知道，Xcode 默认有 Debug、Release 两种模式，我们就可以打两种版本的包，分别对应开发版，正式版。但是这两个版本不一定满足我们的需求，如我们需要有开发版、内部测试版、外部测试版、公测版、正式版。  ####第一步：新增Configurations如图，选中PROJECT，新增Configurations，然后取个名字（">
+<meta name="description" content="此处说的多版本管理，指多Configurations管理。我们知道，Xcode 默认有 Debug、Release 两种模式，我们就可以打两种版本的包，分别对应开发版，正式版。但是这两个版本不一定满足我们的需求，如我们需要有开发版、内部测试版、外部测试版、公测版、正式版。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xcode多版本管理">
 <meta property="og:url" content="http://example.com/2021/04/04/Xcode%E5%A4%9A%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="耀不同">
-<meta property="og:description" content="此处说的多版本管理，指多Configurations管理。我们知道，Xcode 默认有 Debug、Release 两种模式，我们就可以打两种版本的包，分别对应开发版，正式版。但是这两个版本不一定满足我们的需求，如我们需要有开发版、内部测试版、外部测试版、公测版、正式版。  ####第一步：新增Configurations如图，选中PROJECT，新增Configurations，然后取个名字（">
+<meta property="og:description" content="此处说的多版本管理，指多Configurations管理。我们知道，Xcode 默认有 Debug、Release 两种模式，我们就可以打两种版本的包，分别对应开发版，正式版。但是这两个版本不一定满足我们的需求，如我们需要有开发版、内部测试版、外部测试版、公测版、正式版。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3255919-3f2e502f813f455b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3255919-587df978987c3740.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="article:published_time" content="2021-04-04T13:12:59.000Z">
-<meta property="article:modified_time" content="2021-04-05T04:22:57.974Z">
+<meta property="article:modified_time" content="2021-04-05T14:43:53.600Z">
 <meta property="article:author" content="彭之耀">
 <meta property="article:tag" content="iOS">
 <meta property="article:tag" content="xcode">
@@ -114,7 +114,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -127,6 +127,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%96%B0%E5%A2%9EConfigurations"><span class="nav-number">1.</span> <span class="nav-text">第一步：新增Configurations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E8%AE%BE%E7%BD%AE%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%80%BC"><span class="nav-number">2.</span> <span class="nav-text">第二步：设置宏定义值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">第三步：使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E7%AF%87%E5%AE%8C"><span class="nav-number">4.</span> <span class="nav-text">全篇完</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -140,7 +141,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -221,7 +222,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-04-05 12:22:57" itemprop="dateModified" datetime="2021-04-05T12:22:57+08:00">2021-04-05</time>
+        <time title="修改时间：2021-04-05 22:43:53" itemprop="dateModified" datetime="2021-04-05T22:43:53+08:00">2021-04-05</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -246,19 +247,19 @@
         <blockquote>
 <p>此处说的多版本管理，指多Configurations管理。我们知道，Xcode 默认有 Debug、Release 两种模式，我们就可以打两种版本的包，分别对应开发版，正式版。但是这两个版本不一定满足我们的需求，如我们需要有开发版、内部测试版、外部测试版、公测版、正式版。</p>
 </blockquote>
-<p>####第一步：新增Configurations<br>如图，选中<code>PROJECT</code>，新增<code>Configurations</code>，然后取个名字（如 Beta）。<br><img src="https://upload-images.jianshu.io/upload_images/3255919-3f2e502f813f455b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>####第二步：设置宏定义值<br>如图，选中目标Target，打开 Build Settings，搜索 macro，设置 Beta 的宏定义为：BETA=1<br><img src="https://upload-images.jianshu.io/upload_images/3255919-587df978987c3740.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>注意此处的宏定义，设置完后的效果如图，即 ：</p>
+<span id="more"></span>
+<h4 id="第一步：新增Configurations"><a href="#第一步：新增Configurations" class="headerlink" title="第一步：新增Configurations"></a>第一步：新增Configurations</h4><p>如图，选中<code>PROJECT</code>，新增<code>Configurations</code>，然后取个名字（如 Beta）。<br><img src="https://upload-images.jianshu.io/upload_images/3255919-3f2e502f813f455b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="第二步：设置宏定义值"><a href="#第二步：设置宏定义值" class="headerlink" title="第二步：设置宏定义值"></a>第二步：设置宏定义值</h4><p>如图，选中目标Target，打开 Build Settings，搜索 macro，设置 Beta 的宏定义为：BETA=1<br><img src="https://upload-images.jianshu.io/upload_images/3255919-587df978987c3740.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>注意此处的宏定义，设置完后的效果如图，即 ：</p>
 <ul>
 <li>Beta 后对应 BETA=1</li>
 <li>Debug 后对应 DEBUG=1</li>
 <li>Release 后对应 PROD=1</li>
 </ul>
-<p>####第三步：使用<br>.pch中文件中的使用</p>
+<h4 id="第三步：使用"><a href="#第三步：使用" class="headerlink" title="第三步：使用"></a>第三步：使用</h4><p>.pch中文件中的使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#ifdef DEBUG</span><br><span class="line">#define kUpdateXmlUrl @&quot;xxx&quot;</span><br><span class="line">#elif BETA</span><br><span class="line">#define kUpdateXmlUrl @&quot;xxx&quot;</span><br><span class="line">#else</span><br><span class="line">#define kUpdateXmlUrl @&quot;xxx&quot;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
 <p>代码中的使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSAttributedString *str1 &#x3D; [[NSAttributedString alloc] initWithString:@&quot;XXXX&quot; attributes:@&#123;NSForegroundColorAttributeName:[NSColor blackColor]&#125;];</span><br><span class="line">#if DEBUG</span><br><span class="line">    NSAttributedString *str2 &#x3D; [[NSAttributedString alloc] initWithString:@&quot;（开发版）&quot; attributes:@&#123;NSForegroundColorAttributeName:[NSColor colorWithHexString:@&quot;A1A1A1&quot;]&#125;];</span><br><span class="line">#elif BETA</span><br><span class="line">    NSAttributedString *str2 &#x3D; [[NSAttributedString alloc] initWithString:@&quot;（Beta版）&quot; attributes:@&#123;NSForegroundColorAttributeName:[NSColor colorWithHexString:@&quot;A1A1A1&quot;]&#125;];</span><br><span class="line">#else</span><br><span class="line">    NSAttributedString *str2 &#x3D; [[NSAttributedString alloc] initWithString:@&quot;（测试版）&quot; attributes:@&#123;NSForegroundColorAttributeName:[NSColor colorWithHexString:@&quot;A1A1A1&quot;]&#125;];</span><br><span class="line">#endif</span><br><span class="line">NSMutableAttributedString *str &#x3D; [[NSMutableAttributedString alloc] init];</span><br><span class="line">[str appendAttributedString:str1];</span><br><span class="line">[str appendAttributedString:str2];</span><br><span class="line">self.titleBtn.attributedTitle &#x3D; str;</span><br></pre></td></tr></table></figure>
-<p>####全篇完</p>
-
+<h4 id="全篇完"><a href="#全篇完" class="headerlink" title="全篇完"></a>全篇完</h4>
     </div>
 
     
@@ -280,9 +281,6 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/04/05/hello-world/" rel="next" title="Hello World">
-                  Hello World <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
