@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<meta name="hexo-config" content="{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;/&quot;,&quot;images&quot;:&quot;/images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.3.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}">
+<meta name="description" content="你是否也有这样的困惑？当我将一个对象传给一个函数后，这个函数拥有值是原始对象，还是一个克隆体？当原始对象发生改变后，函数内形参的值是否会随之改变？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS形参传递的是什么？">
+<meta property="og:url" content="http://example.com/2021/06/09/iOS%E5%BD%A2%E5%8F%82%E4%BC%A0%E9%80%92%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/index.html">
+<meta property="og:site_name" content="耀不同">
+<meta property="og:description" content="你是否也有这样的困惑？当我将一个对象传给一个函数后，这个函数拥有值是原始对象，还是一个克隆体？当原始对象发生改变后，函数内形参的值是否会随之改变？">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-09T12:23:00.000Z">
+<meta property="article:modified_time" content="2021-06-09T12:39:57.421Z">
+<meta property="article:author" content="彭之耀">
+<meta property="article:tag" content="Mac开发">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="Objective-C">
+<meta property="article:tag" content="iOS开发">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/06/09/iOS%E5%BD%A2%E5%8F%82%E4%BC%A0%E9%80%92%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/">
+
+
+
+<meta name="hexo-config-page" content="{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;}">
+<meta name="hexo-config-calendar" content="">
+<script data-pjax src="/js/load-config.js"></script>
+  <title>iOS形参传递的是什么？ | 耀不同</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">耀不同</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">彭之耀的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%88%E4%BB%8B%E7%BB%8D-OC-%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-number">1.</span> <span class="nav-text">先介绍 OC 的情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Swift%E7%9A%84%E6%83%85%E5%86%B5%E7%B1%BB%E4%BC%BC"><span class="nav-number">2.</span> <span class="nav-text">Swift的情况类似</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">示例代码</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">彭之耀</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/06/09/iOS%E5%BD%A2%E5%8F%82%E4%BC%A0%E9%80%92%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="彭之耀">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耀不同">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS形参传递的是什么？
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-06-09 20:23:00 / 修改时间：20:39:57" itemprop="dateCreated datePublished" datetime="2021-06-09T20:23:00+08:00">2021-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Apple%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">Apple开发</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>你是否也有这样的困惑？当我将一个对象传给一个函数后，这个函数拥有值是原始对象，还是一个克隆体？当原始对象发生改变后，函数内形参的值是否会随之改变？</p>
+</blockquote>
+<span id="more"></span>
+
+<h4 id="先介绍-OC-的情况"><a href="#先介绍-OC-的情况" class="headerlink" title="先介绍 OC 的情况"></a>先介绍 OC 的情况</h4><p>我们知道打印地址的方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSLog(@&quot;地址:%p&quot;,p);</span><br></pre></td></tr></table></figure>
+
+<p>那么，让我们先打印下，传参后的地址变化，此处我对一个<code>Person</code>对象进行了三次引用，分别是：原始值、传参、全局变量，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">-(void)viewWillAppear:(BOOL)animated&#123;</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;全局变量地址:%p&quot;,_zs);</span><br><span class="line">    Person *p &#x3D; [[Person alloc] init];</span><br><span class="line">    p.name &#x3D; @&quot;张三&quot;;</span><br><span class="line">    p.address &#x3D; @&quot;聚贤路&quot;;</span><br><span class="line">    _zs &#x3D; p;</span><br><span class="line">    NSLog(@&quot;原始地址:%p&quot;,p);</span><br><span class="line">    NSLog(@&quot;全局变量地址:%p&quot;,_zs);</span><br><span class="line">    [self say:p];</span><br><span class="line">    self.nameTF.text &#x3D; p.name;</span><br><span class="line">    self.addressTF.text &#x3D; p.address;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)say:(Person *)p</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;形参地址:%p&quot;,p);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2021-05-25 17:32:21.733520+0800 PerameterDemo_iOS[18143:349387] 全局变量地址:0x0</span><br><span class="line">2021-05-25 17:32:21.733673+0800 PerameterDemo_iOS[18143:349387] 原始地址:0x600000e2c120</span><br><span class="line">2021-05-25 17:32:21.733798+0800 PerameterDemo_iOS[18143:349387] 全局变量地址:0x600000e2c120</span><br><span class="line">2021-05-25 17:32:21.733884+0800 PerameterDemo_iOS[18143:349387] 形参地址:0x600000e2c120</span><br></pre></td></tr></table></figure>
+
+<p>很明显：地址相同</p>
+<p>为了保险起见，我们来看看属性的变化产生的影响，这个可能是我们真真切切关系的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">-(void)viewWillAppear:(BOOL)animated&#123;</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;全局变量地址:%p&quot;,_zs);</span><br><span class="line">    Person *p &#x3D; [[Person alloc] init];</span><br><span class="line">    p.name &#x3D; @&quot;张三&quot;;</span><br><span class="line">    p.address &#x3D; @&quot;聚贤路&quot;;</span><br><span class="line">    _zs &#x3D; p;</span><br><span class="line">    NSLog(@&quot;原始地址:%p&quot;,p);</span><br><span class="line">    NSLog(@&quot;全局变量地址:%p&quot;,_zs);</span><br><span class="line">    [self say:p];</span><br><span class="line">    self.nameTF.text &#x3D; p.name;</span><br><span class="line">    self.addressTF.text &#x3D; p.address;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (IBAction)change:(UIButton *)sender &#123;</span><br><span class="line">    _zs.name &#x3D; self.nameTF.text;</span><br><span class="line">    _zs.address &#x3D; self.addressTF.text;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)say:(Person *)p</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;形参地址:%p&quot;,p);</span><br><span class="line">    </span><br><span class="line">    dispatch_source_t timer &#x3D; dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(0, 0));</span><br><span class="line">    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);</span><br><span class="line">    dispatch_source_set_event_handler(timer, ^&#123;</span><br><span class="line">        NSLog(@&quot;OC---name:%@    addresss:%@\n&quot;,p.name,p.address);</span><br><span class="line">    &#125;);</span><br><span class="line">    dispatch_resume(timer);</span><br><span class="line">    _timer &#x3D; timer;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码我们主要做了两个事情：</p>
+<ul>
+<li>开启一个定时器，不停得读传入的参数的值</li>
+<li>用一个方法改变<code>Person</code>对象里属性的值</li>
+</ul>
+<p>结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">2021-05-25 17:47:08.290704+0800 PerameterDemo_iOS[18190:358023] OC---name:张三    addresss:聚贤路</span><br><span class="line">2021-05-25 17:47:09.290252+0800 PerameterDemo_iOS[18190:358023] OC---name:张三    addresss:聚贤路</span><br><span class="line">2021-05-25 17:47:10.290279+0800 PerameterDemo_iOS[18190:358021] OC---name:张三    addresss:聚贤路</span><br><span class="line">2021-05-25 17:47:11.291429+0800 PerameterDemo_iOS[18190:358021] OC---name:张三    addresss:聚贤路</span><br><span class="line">2021-05-25 17:47:12.291253+0800 PerameterDemo_iOS[18190:358021] OC---name:张三1    addresss:聚贤路1</span><br><span class="line">2021-05-25 17:47:13.291549+0800 PerameterDemo_iOS[18190:358021] OC---name:张三1    addresss:聚贤路1</span><br><span class="line">2021-05-25 17:47:14.291376+0800 PerameterDemo_iOS[18190:358021] OC---name:张三1    addresss:聚贤路1</span><br><span class="line">2021-05-25 17:47:15.291135+0800 PerameterDemo_iOS[18190:358026] OC---name:张三1    addresss:聚贤路1</span><br></pre></td></tr></table></figure>
+
+<p>即：当我们改变全局变量<code>_zs</code>里面属性的值时，<code>say:</code>函数里的形参<code>p</code>里的属性值也发生了变换。</p>
+<h4 id="Swift的情况类似"><a href="#Swift的情况类似" class="headerlink" title="Swift的情况类似"></a>Swift的情况类似</h4><p>由于 Swift 打印地址比较麻烦，故只做了属性变化的测试</p>
+<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><p><a target="_blank" rel="noopener" href="https://github.com/pzyno/Parameter">Parameter</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Mac%E5%BC%80%E5%8F%91/" rel="tag"># Mac开发</a>
+              <a href="/tags/Swift/" rel="tag"># Swift</a>
+              <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+              <a href="/tags/iOS%E5%BC%80%E5%8F%91/" rel="tag"># iOS开发</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/04/GCD%E5%AE%9A%E6%97%B6%E5%99%A8/" rel="prev" title="GCD定时器">
+                  <i class="fa fa-chevron-left"></i> GCD定时器
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/06/09/NSOutlineView%E5%88%B7%E6%96%B0%E5%90%8E%E4%BF%9D%E6%8C%81%E5%88%B7%E6%96%B0%E5%89%8D%E7%9A%84%E7%8A%B6%E6%80%81/" rel="next" title="NSOutlineView刷新后保持刷新前的状态">
+                  NSOutlineView刷新后保持刷新前的状态 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">彭之耀</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
